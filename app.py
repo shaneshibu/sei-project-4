@@ -10,6 +10,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
-@app.route('/')
-def hello():
-    return 'Hello'
+# pylint: disable=C0413
+from models.post import Post, PostSchema
+post_schema = PostSchema()
+
+@app.route('/posts')
+def index():
+    posts = Post.query.all()
+    return post_schema.jsonify(posts, many=True), 200
