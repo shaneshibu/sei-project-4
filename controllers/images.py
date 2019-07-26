@@ -28,3 +28,11 @@ def show(image_id):
     if not image:
         return {'message': 'Image not found'}, 404
     return image_schema.jsonify(image), 200
+
+@api.route('/images/<int:image_id>', methods=['DELETE'])
+def delete(image_id):
+    image = Image.query.get(image_id)
+    if not image:
+        return {'message': 'Image not found'}, 404
+    image.remove()
+    return {}, 204
