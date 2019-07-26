@@ -10,11 +10,5 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
-# pylint: disable=C0413
-from models.image import Image, ImageSchema
-image_schema = ImageSchema()
-
-@app.route('/images')
-def images_index():
-    images = Image.query.all()
-    return image_schema.jsonify(images, many=True), 200
+# pylint: disable=C0413, W0611
+from config import router
