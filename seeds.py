@@ -1,10 +1,23 @@
 from app import app, db
+from models.user import UserSchema
 from models.image import Image
+
+user_schema = UserSchema()
 
 with app.app_context():
     db.drop_all()
     db.create_all()
     seed = []
+
+    user_1, errors = user_schema.load({'username':'user1', 'email':'email1@email', 'password':'pass'})
+    if errors:
+        raise Exception(errors)
+    seed.append(user_1)
+
+    user_2, errors = user_schema.load({'username':'user2', 'email':'email2@email', 'password':'pass'})
+    if errors:
+        raise Exception(errors)
+    seed.append(user_2)
 
     image_1 = Image(url='https://pixabay.com/get/52e3d6414853a914f6d1867dda6d49214b6ac3e456577240722c78d390/shadow-4332215_1920.jpg')
     seed.append(image_1)
