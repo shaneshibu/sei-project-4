@@ -21,3 +21,10 @@ def add():
         return errors, 422
     image.save()
     return image_schema.jsonify(image), 201
+
+@api.route('/images/<int:image_id>', methods=['GET'])
+def show(image_id):
+    image = Image.query.get(image_id)
+    if not image:
+        return {'message': 'Image not found'}, 404
+    return image_schema.jsonify(image), 200
