@@ -1,19 +1,15 @@
 from app import db, ma
-from models.base import BaseModel, BaseSchema
-from models.post import Post
 
-class Image(db.Model, BaseModel):
+class Image(db.Model):
 
     __tablename__ = 'images'
 
+    id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.Text, nullable=False)
-    gif = db.Column(db.Boolean, default=False)
-    caption = db.Column(db.String(100))
-    #views
-    #post_id
     #user_id
+    #post_ids
 
-class ImageSchema(ma.ModelSchema, BaseSchema):
+class ImageSchema(ma.ModelSchema):
 
     class Meta:
         model = Image

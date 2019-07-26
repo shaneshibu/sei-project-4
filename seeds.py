@@ -1,22 +1,10 @@
 from app import app, db
-from models.post import Post
 from models.image import Image
 
 with app.app_context():
     db.drop_all()
     db.create_all()
     seed = []
-
-    post_1 = Post(title='Post 1')
-    seed.append(post_1)
-    post_2 = Post(title='Post 2')
-    seed.append(post_2)
-    post_3 = Post(title='Post 3')
-    seed.append(post_3)
-    post_4 = Post(title='Post 4')
-    seed.append(post_4)
-    post_5 = Post(title='Post 5')
-    seed.append(post_5)
 
     image_1 = Image(url='https://pixabay.com/get/52e3d6414853a914f6d1867dda6d49214b6ac3e456577240722c78d390/shadow-4332215_1920.jpg')
     seed.append(image_1)
@@ -30,7 +18,7 @@ with app.app_context():
     seed.append(image_5)
     image_6 = Image(url='https://pixabay.com/get/52e3d6454a56a514f6d1867dda6d49214b6ac3e456577240722c7cd493/berry-breakfast-4336049_1920.jpg')
     seed.append(image_6)
-    image_7 = Image(url='https://pixabay.com/get/52e3d14b4851af14f6d1867dda6d49214b6ac3e456577240722c7cd691/nettle-4348233_1920.jpg', caption='A beetle')
+    image_7 = Image(url='https://pixabay.com/get/52e3d14b4851af14f6d1867dda6d49214b6ac3e456577240722c7cd691/nettle-4348233_1920.jpg')
     seed.append(image_7)
     image_8 = Image(url='https://pixabay.com/get/52e3d0424854aa14f6d1867dda6d49214b6ac3e456577240722c73d590/agriculture-4351266_1920.jpg')
     seed.append(image_8)
