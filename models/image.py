@@ -1,4 +1,3 @@
-from marshmallow import fields
 from app import db, ma
 from .base import BaseModel, BaseSchema
 # pylint: disable=W0611
@@ -17,5 +16,3 @@ class ImageSchema(ma.ModelSchema, BaseSchema):
 
     class Meta:
         model = Image
-
-    uploader = fields.Field(required=True)

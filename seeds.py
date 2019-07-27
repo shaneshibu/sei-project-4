@@ -31,10 +31,10 @@ with app.app_context():
 
     image_1 = Image(
         url='https://pixabay.com/get/52e3d6414853a914f6d1867dda6d49214b6ac3e456577240722c78d390/shadow-4332215_1920.jpg',
-        uploader = user_1
+        uploader=user_1
     )
     seed.append(image_1)
-    
+
     image_2 = Image(
         url='https://pixabay.com/get/52e3d1404f56ae14f6d1867dda6d49214b6ac3e456577240722c7fd091/susten-4343542_1920.jpg',
         uploader=user_1
