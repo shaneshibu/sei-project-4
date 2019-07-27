@@ -9,12 +9,22 @@ with app.app_context():
     db.create_all()
     seed = []
 
-    user_1, errors = user_schema.load({'username':'user1', 'email':'email1@email.com', 'password':'pass'})
+    user_1, errors = user_schema.load({
+        'username':'user1',
+        'email':'email1@email.com',
+        'password':'pass',
+        'password_confirmation': 'pass'
+        })
     if errors:
         raise Exception(errors)
     seed.append(user_1)
 
-    user_2, errors = user_schema.load({'username':'user2', 'email':'email2@email.com', 'password':'pass'})
+    user_2, errors = user_schema.load({
+        'username':'user2',
+        'email':'email2@email.com',
+        'password':'pass',
+        'password_confirmation': 'pass'
+        })
     if errors:
         raise Exception(errors)
     seed.append(user_2)
