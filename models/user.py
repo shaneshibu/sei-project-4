@@ -3,8 +3,8 @@ import jwt
 from sqlalchemy.ext.hybrid import hybrid_property
 from marshmallow import validates_schema, ValidationError, fields, validate
 from app import db, ma, bcrypt
-from models.base import BaseModel, BaseSchema
 from config.environment import secret
+from .base import BaseModel, BaseSchema
 
 class User(db.Model, BaseModel):
 
@@ -53,6 +53,7 @@ class UserSchema(ma.ModelSchema, BaseSchema):
     email = fields.Email(required=True, validate=validate.Length(min=6, max=128))
     password = fields.String(required=True, validate=validate.Length(min=4, max=30))
     password_confirmation = fields.String(required=True)
+    uploaded_images = fields.Nested('ImageSchema', many=True, only=('url'))
 
     @validates_schema
     # pylint: disable=R0201
