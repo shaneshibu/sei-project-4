@@ -1,5 +1,4 @@
 from flask import Blueprint, request
-from sqlalchemy import or_
 from models.user import User, UserSchema
 from lib.helpers import is_unique
 
@@ -28,7 +27,7 @@ def register():
     if errors:
         return errors, 422
     user.save()
-    return {user_schema.jsonify(user)}, 201
+    return user_schema.jsonify(user), 201
 
 @api.route('/login', methods=['POST'])
 def login():
