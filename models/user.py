@@ -54,6 +54,7 @@ class UserSchema(ma.ModelSchema, BaseSchema):
     password = fields.String(required=True, validate=validate.Length(min=4, max=30))
     password_confirmation = fields.String(required=True)
     uploaded_images = fields.Nested('ImageSchema', many=True, only=('url'))
+    posts = fields.Nested('PostSchema', many=True) 
 
     @validates_schema
     # pylint: disable=R0201
