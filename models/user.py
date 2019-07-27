@@ -29,7 +29,13 @@ class UserSchema(ma.ModelSchema, BaseSchema):
         exclude = ('password_hash',)
         load_only = ('password',)
 
-    username = fields.String(required=True, validate=validate.Length(min=4, max=30))
+    username = fields.String(
+        required=True,
+        validate=[
+            validate.Length(min=4, max=30),
+            validate.Regexp(regex=r'^[\w]+$', error='Letters, numbers, dashes, and underscores only. Please try again without symbols.')
+            ]
+        )
     email = fields.Email(required=True, validate=validate.Length(min=6, max=128))
     password = fields.String(required=True, validate=validate.Length(min=4, max=30))
     password_confirmation = fields.String(required=True)
