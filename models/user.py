@@ -1,5 +1,5 @@
 from sqlalchemy.ext.hybrid import hybrid_property
-from marshmallow import fields
+from marshmallow import validates_schema, ValidationError, fields, validate
 from app import db, ma, bcrypt
 from models.base import BaseModel, BaseSchema
 
@@ -27,5 +27,18 @@ class UserSchema(ma.ModelSchema, BaseSchema):
     class Meta:
         model = User
         exclude = ('password_hash',)
+        load_only = ('password',)
 
-    password = fields.String(required=True)
+    username = fields.String(required=True, validate=validate.Length(min=4, max=30))
+    email = fields.Email(required=True, validate=validate.Length(min=6, max=128))
+    password = fields.String(required=True, validate=validate.Length(min=4, max=30))
+    password_confirmation = fields.String(required=True)
+
+    @validates_schema
+    # pylint: disable=R0201
+    def check_passwords_match(self, data):
+        if data.get('password') != data.get('password_confirmation'):
+            raise ValidationError(
+            'Passwords do not match.',
+            'password_confirmation'
+            )
