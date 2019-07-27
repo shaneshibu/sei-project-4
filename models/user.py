@@ -1,7 +1,10 @@
+from datetime import datetime, timedelta
+import jwt
 from sqlalchemy.ext.hybrid import hybrid_property
 from marshmallow import validates_schema, ValidationError, fields, validate
 from app import db, ma, bcrypt
 from models.base import BaseModel, BaseSchema
+from config.environment import secret
 
 class User(db.Model, BaseModel):
 
@@ -21,6 +24,17 @@ class User(db.Model, BaseModel):
 
     def validate_password(self, plaintext):
         return bcrypt.check_password_hash(self.password_hash, plaintext)
+
+    def generate_token(self):
+        payload = {
+            'iss': 'imagebored',
+            'exp': datetime.utcnow() + timedelta(days=1),
+            'iat': datetime.utcnow(),
+            'sub': self.id
+        }
+
+        token = jwt.encode(payload, secret, 'HS256').decode('utf-8')
+        return token
 
 class UserSchema(ma.ModelSchema, BaseSchema):
 

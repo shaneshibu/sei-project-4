@@ -1,4 +1,5 @@
 from flask import Blueprint, request
+from sqlalchemy import or_
 from models.user import User, UserSchema
 from lib.helpers import is_unique
 
@@ -27,4 +28,22 @@ def register():
     if errors:
         return errors, 422
     user.save()
-    return user_schema.jsonify(user), 200
+    return {user_schema.jsonify(user)}, 201
+
+@api.route('/login', methods=['POST'])
+def login():
+    try:
+        data = request.get_json()
+    except:
+        return {'message': 'That is not a valid JSON Object'}, 422
+    # if post request does not include username or password fields return error
+    for field in ('username', 'password'):
+        if not field in data:
+            required_field = 'Username or Email' if field == 'username' else 'Password'
+            return {'message': f'{required_field} is required'}, 411
+    # query by username column, if no user found then query by email column
+    user = User.query.filter((User.username == data['username']) | (User.email == data['username'])).first()
+    # if no user found or if password is incorrect return error
+    if not user or not user.validate_password(data['password']):
+        return {'message': 'Unauthorized'}, 401
+    return {'message': f'Welcome Back {user.username}', 'token': user.generate_token()}, 202
