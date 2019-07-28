@@ -21,7 +21,7 @@ class PostSchema(ma.ModelSchema, BaseSchema):
     # images = fields.Nested('ImageSchema', many=True, only=('url'))
     title = fields.String(required=True, validate=validate.Length(min=1, max=50))
     creator = fields.Nested('UserSchema', only='username')
-    post_entries = fields.Nested('EntrySchema', many=True, exclude=('created_at', 'updated_at', 'id', 'post'))
+    post_entries = fields.Nested('EntrySchema', many=True, exclude=('created_at', 'updated_at', 'id', 'post'), required=True)
 
 class Entry(db.Model, BaseModel):
 
@@ -30,13 +30,13 @@ class Entry(db.Model, BaseModel):
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
     image_id = db.Column(db.Integer, db.ForeignKey('images.id'))
     position = db.Column(db.Integer, default=0)
-    caption = db.Column(db.String(30))
+    caption = db.Column(db.String(30), default='')
     post = db.relationship('Post', backref='post_entries')
-    image = db.relationship('Image', backref='image_posts')
+    image = db.relationship('Image', backref='posts')
 
-class EntrySchema(ma.ModelSchema):
+class EntrySchema(ma.ModelSchema, BaseSchema):
 
     class Meta:
         model = Entry
 
-    image = fields.Nested('ImageSchema', only=('id', 'url'))
+    image = fields.Nested('ImageSchema', only=('id', 'url'), required=True)
