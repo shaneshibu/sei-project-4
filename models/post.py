@@ -1,4 +1,4 @@
-from marshmallow import fields
+from marshmallow import fields, validate
 from app import db, ma
 from .base import BaseModel, BaseSchema
 # pylint: disable=W0611
@@ -19,6 +19,10 @@ class PostSchema(ma.ModelSchema, BaseSchema):
         model = Post
 
     # images = fields.Nested('ImageSchema', many=True, only=('url'))
+<<<<<<< HEAD
+=======
+    title = fields.String(required=True, validate=validate.Length(min=1, max=50))
+>>>>>>> post-controller
     post_entries = fields.Nested('EntrySchema', many=True, exclude=('created_at', 'updated_at', 'id', 'post'))
 
 class Entry(db.Model, BaseModel):
