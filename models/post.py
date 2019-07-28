@@ -20,6 +20,7 @@ class PostSchema(ma.ModelSchema, BaseSchema):
 
     # images = fields.Nested('ImageSchema', many=True, only=('url'))
     title = fields.String(required=True, validate=validate.Length(min=1, max=50))
+    creator = fields.Nested('UserSchema', only='username')
     post_entries = fields.Nested('EntrySchema', many=True, exclude=('created_at', 'updated_at', 'id', 'post'))
 
 class Entry(db.Model, BaseModel):

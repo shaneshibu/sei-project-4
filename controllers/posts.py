@@ -24,3 +24,10 @@ def create():
     post.creator = g.current_user
     post.save()
     return post_schema.jsonify(post), 201
+
+@api.route('/posts/<int:post_id>', methods=['GET'])
+def show(post_id):
+    post = Post.query.get(post_id)
+    if not post:
+        return {'message': 'Image not found'}, 404
+    return post_schema.jsonify(post), 200
