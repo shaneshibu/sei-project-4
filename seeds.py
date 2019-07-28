@@ -1,7 +1,8 @@
 from app import app, db
 from models.user import UserSchema
 from models.image import Image
-from models.post import Post
+from models.post import Post, Entry
+
 
 user_schema = UserSchema()
 
@@ -67,6 +68,7 @@ with app.app_context():
     post_1 = Post(title='Post 1', creator=user_1)
     seed.append(post_1)
 
+
     post_2 = Post(title='Post 2', creator=user_1)
     seed.append(post_2)
 
@@ -74,4 +76,21 @@ with app.app_context():
     seed.append(post_3)
 
     db.session.add_all(seed)
+    db.session.commit()
+
+    entry_1 = Entry(
+        post_id=post_1.id,
+        image_id=image_1.id,
+        caption='Caption 1',
+        position=0
+    )
+    db.session.add(entry_1)
+
+    entry_2 = Entry(
+        post_id=post_1.id,
+        image_id=image_2.id,
+        caption='Caption 2',
+        position=1
+    )
+    db.session.add(entry_2)
     db.session.commit()
