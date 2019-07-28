@@ -1,5 +1,5 @@
 from flask import Blueprint, request, g
-from models.post import Post, PostSchema
+from models.post import Post, PostSchema, Entry
 from lib.secure_route import secure_route
 
 api = Blueprint('posts', __name__)
@@ -29,5 +29,19 @@ def create():
 def show(post_id):
     post = Post.query.get(post_id)
     if not post:
-        return {'message': 'Image not found'}, 404
+        return {'message': 'Post not found'}, 404
     return post_schema.jsonify(post), 200
+
+@api.route('/posts/<int:post_id>', methods=['DELETE'])
+@secure_route
+def delete(post_id):
+    post = Post.query.get(post_id)
+    if not post:
+        return {'message': 'Post not found'}, 404
+    if post.creator != g.current_user:
+        return {'message': 'Unauthorized'}, 401
+    entries = Entry.query.filter_by(post_id=post.id).all()
+    for entry in entries:
+        entry.remove()
+    post.remove()
+    return {}, 204
