@@ -1,6 +1,7 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, g
 from models.user import User, UserSchema
 from lib.helpers import is_unique
+from lib.secure_route import secure_route
 
 api = Blueprint('users', __name__)
 
@@ -46,3 +47,8 @@ def login():
     if not user or not user.validate_password(data['password']):
         return {'message': 'Unauthorized'}, 401
     return {'message': f'Welcome Back {user.username}', 'token': user.generate_token()}, 202
+
+@api.route('/profile', methods=['GET'])
+@secure_route
+def profile():
+    return user_schema.jsonify(g.current_user), 200
