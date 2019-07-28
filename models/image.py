@@ -18,5 +18,7 @@ class ImageSchema(ma.ModelSchema, BaseSchema):
 
     class Meta:
         model = Image
+        exclude = ('updated_at',)
 
-    image_posts = fields.Nested('EntrySchema', many=True, only=('post'))
+    posts = fields.Nested('EntrySchema', many=True, only='post')
+    uploader = fields.Nested('UserSchema', only='username')

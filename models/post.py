@@ -32,11 +32,11 @@ class Entry(db.Model, BaseModel):
     position = db.Column(db.Integer, default=0)
     caption = db.Column(db.String(30))
     post = db.relationship('Post', backref='post_entries')
-    image = db.relationship('Image', backref='image_posts')
+    image = db.relationship('Image', backref='posts')
 
 class EntrySchema(ma.ModelSchema):
 
     class Meta:
         model = Entry
 
-    image = fields.Nested('ImageSchema', only=('id', 'url'))
+    image = fields.Nested('ImageSchema', only=('id', 'url'), required=True)
