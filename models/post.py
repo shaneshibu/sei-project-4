@@ -3,7 +3,7 @@ from app import db, ma
 from .base import BaseModel, BaseSchema
 # pylint: disable=W0611
 from .user import User
-# from .image import Image
+from .image import Image
 
 class Post(db.Model, BaseModel):
 
@@ -31,11 +31,11 @@ class Entry(db.Model, BaseModel):
     position = db.Column(db.Integer, default=0)
     caption = db.Column(db.String(30))
     post = db.relationship('Post', backref='post_entries')
-    # image = db.relationship('Image', backref='image_posts')
+    image = db.relationship('Image', backref='image_posts')
 
 class EntrySchema(ma.ModelSchema):
 
     class Meta:
         model = Entry
 
-    image_url = fields.Nested('ImageSchema', only='url')
+    image = fields.Nested('ImageSchema', only=('id', 'url'))
