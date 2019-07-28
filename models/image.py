@@ -3,7 +3,7 @@ from app import db, ma
 from .base import BaseModel, BaseSchema
 # pylint: disable=W0611
 from .user import User
-from .post import Entry
+# from .post import Entry
 
 class Image(db.Model, BaseModel):
 
