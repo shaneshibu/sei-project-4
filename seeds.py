@@ -142,7 +142,7 @@ with app.app_context():
             while i < len(user.uploaded_images):
                 entries = []
                 pos = 0
-                while pos < 5 and i < len(user.uploaded_images):
+                while pos < randrange(1, 6) and i < len(user.uploaded_images):
                     entry = Entry(
                         image=user.uploaded_images[i],
                         position=pos
