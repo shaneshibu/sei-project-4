@@ -19,6 +19,7 @@ def register():
         data = request.get_json()
     except:
         return {'message': 'That is not a valid JSON Object'}, 422
+    # errors = {}
     user, errors = user_schema.load(data)
     # check if username or email already exists
     for field in ('username', 'email'):

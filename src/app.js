@@ -5,6 +5,7 @@ import 'bulma'
 
 
 import Home from './components/common/Home'
+import Register from './components/auth/Register'
 import './style.scss'
 
 const App = () => (
@@ -12,6 +13,7 @@ const App = () => (
     <main>
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route exact path="/register" component={Register} />
       </Switch>
     </main>
   </BrowserRouter>
