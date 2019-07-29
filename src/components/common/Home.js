@@ -1,5 +1,6 @@
 import React from 'react'
 
+import IndexPosts from '../posts/IndexPosts'
 
 class Home extends React.Component {
   constructor() {
@@ -14,6 +15,7 @@ class Home extends React.Component {
       <section className="section">
         <div className="container">
           <h1 className="title">Home Page</h1>
+          <IndexPosts />
         </div>
       </section>
     )
