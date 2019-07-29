@@ -1,14 +1,38 @@
+import requests
 from app import app, db
 from models.user import UserSchema
 from models.image import Image
 from models.post import Post, Entry
+from config.environment import pixabay_api_key
 
+# get random users from randomuser.me
+response = requests.get(
+'https://randomuser.me/api/',
+params={
+'results': 50,
+'nat': 'gb',
+'inc': 'name,email,login,picture',
+'noinfo': True
+})
+users = response.json()['results']
 
 user_schema = UserSchema()
 
 with app.app_context():
     db.drop_all()
     db.create_all()
+
+
+    for user in users:
+        user, errors = user_schema.load({
+            'username': user['login']['username'],
+            'email': user['email'],
+            'password':'pass',
+            'password_confirmation': 'pass'
+        })
+        if errors:
+            raise Exception(errors)
+        db.session.add(user)
 
     user_1, errors = user_schema.load({
         'username':'user1',
@@ -93,13 +117,14 @@ with app.app_context():
 
     ])
 
+    # db.session.add_all(users)
     db.session.add_all([
-        image_1,
-        image_2,
-        image_3,
-        image_4,
-        entry_1,
-        entry_2,
-        post_1
+            image_1,
+            image_2,
+            image_3,
+            image_4,
+            entry_1,
+            entry_2,
+            post_1
     ])
     db.session.commit()
