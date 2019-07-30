@@ -58,6 +58,7 @@ with app.app_context():
         })
     if errors:
         raise Exception(errors)
+    user_1.save()
 
     user_2, errors = user_schema.load({
         'username':'user2',
