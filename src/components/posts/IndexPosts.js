@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 class IndexPosts extends React.Component {
@@ -32,9 +33,15 @@ class IndexPosts extends React.Component {
         <h1 className="title">Index Posts</h1>
         <div className="posts-container" ref={el => this.el = el }>
           {this.state.posts && this.state.posts.map(post => (
-            <div key={post.id} className="post-item has-text-centered">
-              <p>{post.title}</p>
-              {post.post_entries[0] && <img src={post.post_entries[0].image.url} alt={post.title}/>}
+            <div key={post.id} className="post-item has-text-centered is-clearfix">
+              <Link to={`/posts/${post.id}`}>
+
+                <span className="is-left">{post.title}</span>
+
+                {post.post_entries.length > 1 && <span className="post-number is-small">(Has {post.post_entries.length} images)</span>}
+                  
+                {post.post_entries[0] && <img src={post.post_entries[0].image.url} alt={post.title}/>}
+              </Link>
             </div>
           ))}
         </div>

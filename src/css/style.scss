@@ -6,9 +6,22 @@
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  color: white;
+  a {
+    text-decoration: none;
+  }
 }
 
 .post-item {
   width: calc(33.3% - 10px);
   margin: 5px;
+}
+
+// .post-item > p {
+//   width: 100%;
+// }
+
+.post-number {
+  background-color: #ddd;
+  text-align: right;
 }
