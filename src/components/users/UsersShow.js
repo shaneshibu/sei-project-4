@@ -67,9 +67,17 @@ class UsersShow extends React.Component {
                 </li>
               </ul>
             </div>
-            <div className="user-images">
+            <div className={this.state.tab==='Images'? 'user-images' : 'is-hidden'}>
               {this.state.user.uploaded_images.length && this.state.user.uploaded_images.map(image => (
                 <img key={image.id} src={image.url} alt="Image" className="image"/>
+              ))}
+            </div>
+            <div className={this.state.tab==='Posts'? 'user-posts' : 'is-hidden'}>
+              {this.state.user.created_posts.length && this.state.user.created_posts.map(post => (
+                <div key={post.id}>
+                  <p className="subtitle">{post.title}</p>
+                  <img src={post.post_entries[0].image.url} alt="Image" className="image"/>
+                </div>
               ))}
             </div>
           </div>
