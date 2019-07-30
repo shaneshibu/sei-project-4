@@ -10,7 +10,7 @@ from config.environment import pixabay_api_key
 response = requests.get(
     'https://randomuser.me/api/',
     params={
-        'results': 100,
+        'results': 74,
         'nat': 'gb',
         'inc': 'name,email,login,picture',
         'noinfo': True
@@ -28,6 +28,18 @@ response = requests.get(
     }
 )
 api_images = response.json()['hits']
+
+# get images from pixabay
+response = requests.get(
+    'https://pixabay.com/api/',
+    params={
+        'key': pixabay_api_key,
+        'editors_choice': True,
+        'page': 2,
+        'per_page': 200
+    }
+)
+api_images = api_images + response.json()['hits']
 
 user_schema = UserSchema()
 
