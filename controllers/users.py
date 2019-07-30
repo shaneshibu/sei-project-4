@@ -49,6 +49,13 @@ def login():
         return {'message': 'Unauthorized'}, 401
     return {'message': f'Welcome Back {user.username}', 'token': user.generate_token()}, 202
 
+@api.route('/users/<int:user_id>', methods=['GET'])
+def show(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return {'message': 'User not found'}, 404
+    return user_schema.jsonify(user), 200
+
 @api.route('/profile', methods=['GET'])
 @secure_route
 def profile():

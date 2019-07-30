@@ -10,7 +10,7 @@ from config.environment import pixabay_api_key
 response = requests.get(
     'https://randomuser.me/api/',
     params={
-        'results': 10,
+        'results': 100,
         'nat': 'gb',
         'inc': 'name,email,login,picture',
         'noinfo': True
@@ -24,7 +24,7 @@ response = requests.get(
         'key': pixabay_api_key,
         'editors_choice': True,
         'page': 1,
-        'per_page': 50
+        'per_page': 200
     }
 )
 api_images = response.json()['hits']
@@ -42,7 +42,8 @@ with app.app_context():
             'username': user['login']['username'],
             'email': user['email'],
             'password':'pass',
-            'password_confirmation': 'pass'
+            'password_confirmation': 'pass',
+            'picture': user['picture']['large']
         })
         if errors:
             raise Exception(errors)
@@ -141,16 +142,17 @@ with app.app_context():
     #
     # ])
 
-    # for each user, add all uploaded images to posts, each post no more than 5 entries long
+    # for each user, add all uploaded images to posts, each post no more than 3 entries long
     for user in users:
         if user.uploaded_images:
             i = 0
             while i < len(user.uploaded_images):
                 entries = []
                 pos = 0
-                while pos < randrange(1, 6) and i < len(user.uploaded_images):
+                while pos < randrange(1, 4) and i < len(user.uploaded_images):
                     entry = Entry(
                         image=user.uploaded_images[i],
+                        caption=f'Caption {pos}',
                         position=pos
                     )
                     entries.append(entry)

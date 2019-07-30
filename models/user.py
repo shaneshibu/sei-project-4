@@ -13,6 +13,7 @@ class User(db.Model, BaseModel):
     username = db.Column(db.String(30), nullable=False, unique=True)
     email = db.Column(db.String(128), nullable=False, unique=True)
     password_hash = db.Column(db.String(128), nullable=False)
+    picture = db.Column(db.String(128))
 
     @hybrid_property
     def password(self):
@@ -53,7 +54,7 @@ class UserSchema(ma.ModelSchema, BaseSchema):
     email = fields.Email(required=True, validate=validate.Length(min=6, max=128))
     password = fields.String(required=True, validate=validate.Length(min=4, max=30))
     password_confirmation = fields.String(required=True)
-    uploaded_images = fields.Nested('ImageSchema', many=True, only=('url'))
+    uploaded_images = fields.Nested('ImageSchema', many=True, exclude=('uploader_id', 'posts'))
     created_posts = fields.Nested('PostSchema', many=True)
 
     @validates_schema

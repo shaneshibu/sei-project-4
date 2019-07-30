@@ -27,7 +27,7 @@ class IndexPosts extends React.Component {
   }
 
   render() {
-    this.state.posts && console.log(this.state)
+    // this.state.posts && console.log(this.state)
     return (
       <div className="container">
         <h1 className="title">Index Posts</h1>
@@ -39,7 +39,7 @@ class IndexPosts extends React.Component {
                 <span className="is-left">{post.title}</span>
 
                 {post.post_entries.length > 1 && <span className="post-number is-small">(Has {post.post_entries.length} images)</span>}
-                  
+
                 {post.post_entries[0] && <img src={post.post_entries[0].image.url} alt={post.title}/>}
               </Link>
             </div>

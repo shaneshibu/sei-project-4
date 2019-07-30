@@ -25,3 +25,14 @@
   background-color: #ddd;
   text-align: right;
 }
+
+.user-images {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.user-images > img {
+  width: 50%;
+  margin: 0;
+}
