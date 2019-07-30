@@ -12,6 +12,8 @@ class Image(db.Model, BaseModel):
     url = db.Column(db.Text, nullable=False)
     uploader_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     uploader = db.relationship('User', backref='uploaded_images')
+    height = db.Column(db.Integer, nullable=False)
+    width = db.Column(db.Integer, nullable=False)
     # entries = db.relationship('Entry', backref='image_url')
 
 class ImageSchema(ma.ModelSchema, BaseSchema):

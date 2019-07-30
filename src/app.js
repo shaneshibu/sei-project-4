@@ -7,7 +7,7 @@ import Home from './components/common/Home'
 import NavBar from './components/common/Navbar'
 import Register from './components/auth/Register'
 import Login from './components/auth/Login'
-import './style.scss'
+import './css/style.scss'
 
 const App = () => (
   <BrowserRouter>

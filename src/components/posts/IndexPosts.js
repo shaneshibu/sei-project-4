@@ -11,22 +11,30 @@ class IndexPosts extends React.Component {
 
   componentDidMount(){
     axios.get('/api/posts')
-      .then(res => this.setState({ posts: res.data }))
+      .then(res => {
+        const totalHeight = res.data.reduce((acc=0, post) => (
+          acc + post.post_entries[0].image.height
+        ), 0)
+        this.el.style.height = `${totalHeight / 3.1}px`
+        this.setState({ posts: res.data, totalHeight })
+      })
       .catch(err => console.log(err))
   }
 
+  componentDidUpdate(){
+
+  }
+
   render() {
-    this.state.posts && console.log(this.state.posts[0].post_entries[0].image.url)
+    this.state.posts && console.log(this.state)
     return (
       <div className="container">
         <h1 className="title">Index Posts</h1>
-        <div className="columns is-multiline">
+        <div className="posts-container" ref={el => this.el = el }>
           {this.state.posts && this.state.posts.map(post => (
-            <div key={post.id} className="column is-one-fifth">
+            <div key={post.id} className="post-item has-text-centered">
               <p>{post.title}</p>
-              <figure className="image">
-                {post.post_entries[0] && <img src={post.post_entries[0].image.url} alt={post.title}/>}
-              </figure>
+              {post.post_entries[0] && <img src={post.post_entries[0].image.url} alt={post.title}/>}
             </div>
           ))}
         </div>

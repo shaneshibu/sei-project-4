@@ -39,4 +39,4 @@ class EntrySchema(ma.ModelSchema, BaseSchema):
     class Meta:
         model = Entry
 
-    image = fields.Nested('ImageSchema', only=('id', 'url'), required=True)
+    image = fields.Nested('ImageSchema', only=('id', 'url', 'height', 'width'), required=True)

@@ -1,0 +1,14 @@
+* {
+  box-sizing: border-box;
+}
+
+.posts-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.post-item {
+  width: calc(33.3% - 10px);
+  margin: 5px;
+}
