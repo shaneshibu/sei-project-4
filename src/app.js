@@ -8,6 +8,7 @@ import NavBar from './components/common/Navbar'
 import Register from './components/auth/Register'
 import Login from './components/auth/Login'
 import PostsShow from './components/posts/PostsShow'
+import PostsCreate from './components/posts/PostsCreate'
 import UsersShow from './components/users/UsersShow'
 import './css/style.scss'
 
@@ -17,6 +18,7 @@ const App = () => (
       <NavBar />
       <Switch>
         <Route exact path="/users/:id" component={UsersShow} />
+        <Route exact path="/users/:id/make_a_new_post" component={PostsCreate} />
         <Route exact path="/posts/:id" component={PostsShow} />
         <Route exact path="/register" component={Register} />
         <Route path="/login" component={Login}/>

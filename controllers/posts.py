@@ -1,5 +1,6 @@
 from flask import Blueprint, request, g
 from models.post import Post, PostSchema, Entry
+from models.image import Image
 from lib.secure_route import secure_route
 
 api = Blueprint('posts', __name__)
@@ -18,7 +19,15 @@ def create():
         data = request.get_json()
     except:
         return {'message': 'That is not a valid JSON Object'}, 422
-    post, errors = post_schema.load(data)
+    if not data.entries in data and not data.entries:
+        return {'message': 'Post does not contain any Entries'}, 422
+    entries = []
+    for entry in data.entries:
+        entry_image = Image.query.get(entry.image_id)
+        entry = Entry(image=entry_image, caption=entry.caption, pos=entry.pos)
+        entries.append(entry)
+    post_data = {'title': data.title, 'post_entries': entries}
+    post, errors = post_schema.load(post_data)
     if errors:
         return errors, 422
     post.creator = g.current_user
