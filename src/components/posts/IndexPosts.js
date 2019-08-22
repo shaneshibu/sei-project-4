@@ -14,9 +14,9 @@ class IndexPosts extends React.Component {
     axios.get('/api/posts')
       .then(res => {
         const totalHeight = res.data.reduce((acc=0, post) => (
-          acc + post.post_entries[0].image.height
+          acc + post.post_entries[0].image.height + 30
         ), 0)
-        this.el.style.height = `${totalHeight / 3.1}px`
+        this.el.style.height = `${totalHeight / 3}px`
         this.setState({ posts: res.data, totalHeight })
       })
       .catch(err => console.log(err))
