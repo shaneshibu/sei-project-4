@@ -12,10 +12,41 @@ An image sharing social network site inspired by imgur.com and instagram. Users 
 - Python
 - Flask
 - PostgreSQL
+- SQLAlchemy
+- Marshmallow
 - Randomuser.me and Pixabay APIs
 
-## Overview
-![ImageBored Home Page](src/assets/screenshots/homepage.gif)
+## Approach
+I first started with planning out the back end. I created an ERD to visualise the database schema.
+
+![ImageBored Home Page](src/assets/screenshots/ERD1.png)
+
+After creating the models and the relationships between them using SQLAlchemy and Marshmallow, I then created the controllers using Flask so that I could interact with my database from my front end.
+
+```python
+from models.image import Image, ImageSchema
+
+@api.route('/images/<int:image_id>', methods=['GET'])
+def show(image_id):
+    image = Image.query.get(image_id)
+    if not image:
+        return {'message': 'Image not found'}, 404
+    return image_schema.jsonify(image), 200
+```
+
+For example, when a GET request is made to the url '/images/123' this 'show' function runs, which queries the 'Image' table in the database for records that have the id '123'. If a record with that id is not found, an error message is returned to the user, otherwise a JSON object containing the fields and values of that image record is returned.
+
+After completing the back end I started on the front end. When displaying data from, or otherwise interacting with the database, the front end would make a http request to the back end.
+
+```javascript
+axios.get('/api/posts')
+  .then(res => this.setState({ posts: res.data, totalHeight }))
+  .catch(err => console.log(err))
+```  
+Here a GET request is being made to retrieve all Posts in the database and the results are being saved in the React state object, so they can later be displayed on the page. 
+
+## Screenshots
+![ImageBored Home Page](src/assets/screenshots/landingpage.gif)
 
 ![ImageBored Show Post](src/assets/screenshots/users.gif)
 
